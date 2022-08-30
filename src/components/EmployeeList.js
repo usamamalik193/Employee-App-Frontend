@@ -1,10 +1,14 @@
 import "./../App.css";
 import React , { useEffect, useState }from 'react';
 import {Table} from 'reactstrap';
+import useAuth from "../hooks/useAuth";
+
 
 
 
 const axios = require("axios").default;
+
+
 
 
 const api = axios.create({
@@ -13,18 +17,27 @@ const api = axios.create({
 
 function EmployeeList() {
 
+  const {auth} = useAuth();
+
+  let config = {
+  
+    headers: {
+      "Authorization": `Bearer ${auth.accessToken}`
+    },
+  };
+
     const [tabData, setTabData] = useState([]);
 
     useEffect(() => {
         // eslint-disable-next-line no-unused-vars
-        let emp = [];
+        //let emp = [];
         
-        api.get("/").then((res) => {
-          console.log(res.data)
-          emp = res.data;
+        api.get("/",config).then((res) => {
+          //console.log(res.data)
+          //emp = res.data;
           setTabData(res.data );
         });
-      }, []);
+      },[]);
 
   return (
     <div className="Page">

@@ -1,5 +1,6 @@
 import "./../App.css";
 import React, { useState } from "react";
+import useAuth from "../hooks/useAuth";
 //import { useNavigate, useLocation } from "react-router-dom";
 // import uploads from '../../../uploads';
 
@@ -19,13 +20,8 @@ const api = axios.create({
   baseURL: "http://localhost:3000/employee",
 });
 
-let config = {
-  headers: {
-    "Content-Type": "multipart/form-data boundary=---011000010111000001101001",
-    //"ngrok-skip-browser-warning": "true",
-    enctype: "multipart/form-data",
-  },
-};
+
+
 
 //console.log(`${process.env.PUBLIC_URL}`)
 
@@ -35,8 +31,18 @@ export const EmployeeForm = () => {
   //const navigate = useNavigate();
  // const location = useLocation();
   //const from = location.state?.from?.pathname || "/emp";
-  
 
+  const {auth} = useAuth();
+  
+  let config = {
+  
+    headers: {
+      "Content-Type": "multipart/form-data boundary=---011000010111000001101001",
+      //"ngrok-skip-browser-warning": "true",
+      enctype: "multipart/form-data",
+      "Authorization": `Bearer ${auth.accessToken}`
+    },
+  };
 
 
 
@@ -78,6 +84,7 @@ export const EmployeeForm = () => {
   };
 
   const submit= async(e)=> {
+    
     e.preventDefault();
     let formData = new FormData();
     formData.append("file", image);

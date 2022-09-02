@@ -1,9 +1,6 @@
 import axios from 'axios';
 import useAuth from './useAuth';
 
-const api = axios.create({
-    baseURL: "http://localhost:3000",
-  });
 
 const useRefreshToken = () => {
     const { setAuth } = useAuth();

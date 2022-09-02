@@ -1,19 +1,20 @@
-import "./../App.css";
+import "./../../App.css";
 import React , { useEffect, useState }from 'react';
 import {Table} from 'reactstrap';
-import useAuth from "../hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
+import Navbar from '../navBar';
+import axios from '../../api/axios'
+
+
+
+//const axios = require("axios").default;
 
 
 
 
-const axios = require("axios").default;
-
-
-
-
-const api = axios.create({
-    baseURL: "http://localhost:3000/employee",
-  });
+// const api = axios.create({
+//     baseURL: "http://localhost:3000/employee",
+//   });
 
 function EmployeeList() {
 
@@ -32,15 +33,17 @@ function EmployeeList() {
         // eslint-disable-next-line no-unused-vars
         //let emp = [];
         
-        api.get("/",config).then((res) => {
+        axios.get("/employee", config).then((res) => {
           //console.log(res.data)
           //emp = res.data;
           setTabData(res.data );
         });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       },[]);
 
   return (
     <div className="Page">
+      <Navbar />
     <div className="App">
         <h4>List of employees</h4>
         <Table id="usersTable">

@@ -1,6 +1,8 @@
-import "./../App.css";
+import "./../../App.css";
 import React, { useState } from "react";
-import useAuth from "../hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
+import Navbar from '../navBar';
+import axios from "../../api/axios";
 //import { useNavigate, useLocation } from "react-router-dom";
 // import uploads from '../../../uploads';
 
@@ -11,40 +13,28 @@ import {
   FormText,
   FormGroup,
   Input,
-  Label
+  Label,
 } from "reactstrap";
-const axios = require("axios").default;
+
 //var Buffer = require('buffer/').Buffer;
-
-const api = axios.create({
-  baseURL: "http://localhost:3000/employee",
-});
-
-
 
 
 //console.log(`${process.env.PUBLIC_URL}`)
 
-
 export const EmployeeForm = () => {
-
-  //const navigate = useNavigate();
- // const location = useLocation();
-  //const from = location.state?.from?.pathname || "/emp";
-
-  const {auth} = useAuth();
   
+
+  const { auth } = useAuth();
+
   let config = {
-  
     headers: {
-      "Content-Type": "multipart/form-data boundary=---011000010111000001101001",
+      "Content-Type":
+        "multipart/form-data boundary=---011000010111000001101001",
       //"ngrok-skip-browser-warning": "true",
       enctype: "multipart/form-data",
-      "Authorization": `Bearer ${auth.accessToken}`
+      Authorization: `Bearer ${auth.accessToken}`,
     },
   };
-
-
 
   const [data, setData] = useState({
     employeeName: "",
@@ -54,9 +44,9 @@ export const EmployeeForm = () => {
     empPhone: "",
   });
 
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState("");
 
-  const [status, setStatus] = useState('')
+  const [status, setStatus] = useState("");
 
   let name, value;
   const handle = (e) => {
@@ -66,41 +56,35 @@ export const EmployeeForm = () => {
   };
 
   const handleFileChange = (e) => {
-    // const img = {
-    //   preview: URL.createObjectURL(e.target.files[0]),
-    //   data: e.target.files[0],
-    //   fieldname: e.target.files[0],
-    //   originalname: e.target.files[0],
-    //   encoding: e.target.files[0],
-    //   mimetype: e.target.files[0],
-    //   destination: e.target.files[0],
-    //   filename: e.target.files[0],
-    //   path: e.target.files[0],
-    //   size: e.target.files[0]
-    // };
-
-    const img= e.target.files[0];
+    
+    const img = e.target.files[0];
     setImage(img);
   };
 
-  const submit= async(e)=> {
-    
+  const submit = async (e) => {
     e.preventDefault();
     let formData = new FormData();
     formData.append("file", image);
-    formData.append("upload_preset","usImagePreset");
-    const imgUrl= await api.post("http://api.cloudinary.com/v1_1/dz7glrdgh/image/upload", formData);
+    formData.append("upload_preset", "usImagePreset");
+    const imgUrl = await axios.post(
+      "http://api.cloudinary.com/v1_1/dz7glrdgh/image/upload",
+      formData
+    );
     Object.keys(data).forEach((x) => formData.append(x, data[x]));
     formData.append("picture", imgUrl.data.url);
-    const response = await api.post("/", formData,config);
+    const response = await axios.post("/employee", formData, config);
     if (response) setStatus(response.statusText);
     // window.location.reload();
-  }
+  };
 
   //Object.keys(jsonData).forEach(x=>formData.append(x,jsonData[x]))
 
   return (
+    
+    
+      
     <div className="Page">
+      <Navbar />
       <div className="App">
         <h2>Employee Entry</h2>
         <Form className="form" id="empForm" onSubmit={submit}>
@@ -145,13 +129,24 @@ export const EmployeeForm = () => {
             <Col sm={12}>
               <FormGroup check>
                 <Label check>
-                  <Input type="radio" name="gender" value="Male" onChange={handle} 
-                  /> Male
+                  <Input
+                    type="radio"
+                    name="gender"
+                    value="Male"
+                    onChange={handle}
+                  />{" "}
+                  Male
                 </Label>
               </FormGroup>
               <FormGroup check>
                 <Label check>
-                  <Input type="radio" name="gender" value="Female" onChange={handle}/> Female
+                  <Input
+                    type="radio"
+                    name="gender"
+                    value="Female"
+                    onChange={handle}
+                  />{" "}
+                  Female
                 </Label>
               </FormGroup>
             </Col>
@@ -190,7 +185,8 @@ export const EmployeeForm = () => {
         {status && <h4>{status}</h4>}
       </div>
     </div>
-  );
-}
 
-export default EmployeeForm
+  );
+};
+
+export default EmployeeForm;

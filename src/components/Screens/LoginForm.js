@@ -1,14 +1,9 @@
 import { useRef, useState, useEffect } from "react";
-import useAuth from "../hooks/useAuth";
-import { useNavigate, useLocation } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import { useNavigate, useLocation,NavLink } from "react-router-dom";
 import { FormGroup, Form, Button, Input, Label } from "reactstrap";
-import "./../App.css";
-
-const axios = require("axios").default;
-
-const api = axios.create({
-  baseURL: "http://localhost:3000/auth",
-});
+import "./../../App.css";
+import axios from "../../api/axios";
 
 export const LoginForm = () => {
   const { setAuth } = useAuth();
@@ -37,9 +32,10 @@ export const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Form Submitted");
 
     try {
-      const response = await api.post("/", JSON.stringify({ user, pwd }), {
+      const response = await axios.post("/auth", JSON.stringify({ user, pwd }), {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
@@ -69,16 +65,6 @@ export const LoginForm = () => {
   return (
     <div>
       <div className="AppLogin">
-        {/* <>
-            {success ? (
-                <section>
-                    <h1>You are logged in!</h1>
-                    <br />
-                    <p>
-                        <a href="#">Go Employee Page</a>
-                    </p>
-                </section>
-            ) : ( */}
         <section>
           <p
             ref={errRef}
@@ -87,7 +73,7 @@ export const LoginForm = () => {
           >
             {errMsg}
           </p>
-          <h2>Employee Login</h2>
+          <h2>Login</h2>
           <Form inline onSubmit={handleSubmit}>
             <FormGroup floating>
               <Input
@@ -116,11 +102,11 @@ export const LoginForm = () => {
               />
               <Label for="examplePassword">Password</Label>
             </FormGroup>{" "}
-            <Button>Submit</Button>
+            <Button>Login</Button>
           </Form>
         </section>
-        {/* )}
-        </> */}
+          <Label>Not a member?</Label>
+          <NavLink to="/register">SignUp</NavLink>
       </div>
     </div>
   );

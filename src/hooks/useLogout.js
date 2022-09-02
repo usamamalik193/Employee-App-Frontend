@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../api/axios";
 import useAuth from "./useAuth";
 
 
@@ -9,7 +9,7 @@ const useLogout = () => {
         setAuth({});
         try {
             // eslint-disable-next-line no-unused-vars
-            const response = await api('/logout',{
+            const response = await axios.get('/logout',{
                 withCredentials: true
             })
         } catch (error) {

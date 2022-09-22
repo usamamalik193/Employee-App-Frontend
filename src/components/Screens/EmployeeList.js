@@ -5,17 +5,6 @@ import useAuth from "../../hooks/useAuth";
 import Navbar from '../navBar';
 import axios from '../../api/axios'
 
-
-
-//const axios = require("axios").default;
-
-
-
-
-// const api = axios.create({
-//     baseURL: "http://localhost:3000/employee",
-//   });
-
 function EmployeeList() {
 
   const {auth} = useAuth();
@@ -58,7 +47,7 @@ function EmployeeList() {
             </tr>
             {tabData && tabData.map((item) => {
               
-                return (
+                return ( 
                   <tr>
                     <td key={item.id}>{item.body.employeeName}</td>
                     <td key={item.id}>{item.body.employeeAddress}</td>

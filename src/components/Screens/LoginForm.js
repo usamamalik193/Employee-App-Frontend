@@ -10,7 +10,7 @@ export const LoginForm = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/empList";
+  const from = location.state?.from?.pathname || "/home";
 
   const userRef = useRef();
   const errRef = useRef();
@@ -112,3 +112,6 @@ export const LoginForm = () => {
 };
 
 export default LoginForm;
+
+
+

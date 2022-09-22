@@ -32,7 +32,6 @@ export const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Submitted");
 
     try {
       const response = await axios.post("/auth", JSON.stringify({ user, pwd }), {

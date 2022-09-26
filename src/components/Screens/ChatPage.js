@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, ModalHeader, ModalBody, Table } from "reactstrap";
-import io from "socket.io-client";
+
 //import PropTypes from "prop-types";
 import useAuth from "../../hooks/useAuth";
 import MessagesPage from "./MessagesPage";
@@ -14,8 +14,8 @@ function ChatPage(props) {
   const [usersTable, setUsersTable] = useState([]);
   const [userRole, setUserRole] = useState(false);
   const [username, setUsername] = useState("");
-  const [room, setRoom] = useState("");
-
+  const [currentUser, setCurrentUser] = useState("");
+  //const [room, setRoom] = useState("");
   
 
   let config = {
@@ -24,24 +24,13 @@ function ChatPage(props) {
     },
   };
 
-  const socket = io("http://localhost:8080", {
-    extraHeaders: {
-      Authorization: `Bearer ${auth.accessToken}`,
-    },
-  });
-  
   const toggle = async (name) => {
     //e.preventDefault();
     setModal(!modal);
-    if (name !== "") {
-      //const userData = { userName: username, joinedRoom: room };
-      setRoom(name);
-      if (auth?.roles?.includes(1000)) { setUsername("Admin")} else{setUsername(name)}
-      await socket.emit("join_room", name);
-    }
+    setUsername(name);
   };
 
-  const currentUser=auth.name;
+  
 
   // useEffect(() => {
    
@@ -63,7 +52,11 @@ function ChatPage(props) {
       });
     }
 
-    
+    if(auth?.roles?.includes(1000)){
+      setCurrentUser("Admin");
+   }else{
+     setCurrentUser(auth.name);
+   }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -136,8 +129,9 @@ function ChatPage(props) {
                   </div> */}
 
               <MessagesPage
+                currentUser={currentUser}
                 username={username}
-                room={room}
+                //room={room}
               />
             </div>
           </ModalBody>

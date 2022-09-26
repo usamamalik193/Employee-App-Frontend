@@ -136,7 +136,6 @@ function ChatPage(props) {
                   </div> */}
 
               <MessagesPage
-                socket={socket}
                 username={username}
                 room={room}
               />

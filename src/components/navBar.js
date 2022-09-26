@@ -37,7 +37,8 @@ function Navbar() {
       title.title === "Employee List" ||
       title.title === "Products" ||
       title.title === "Home" ||
-      title.title === "Roles"
+      title.title === "Roles" ||
+      title.title === "Chat" 
     );
   });
 
@@ -45,7 +46,8 @@ function Navbar() {
     return (
       title.title === "Home" ||
       title.title === "Employee List" ||
-      title.title === "Products"
+      title.title === "Products"||
+      title.title === "Chat" 
     );
   });
 
@@ -53,12 +55,14 @@ function Navbar() {
     return (
       title.title === "Home" ||
       title.title === "Employee List" ||
-      title.title === "Products"
+      title.title === "Products"||
+      title.title === "Chat" 
     );
   });
 
   const userData = sidebarData.filter((title) => {
-    return title.title === "Home" || title.title === "Products";
+    return title.title === "Home" || title.title === "Products" ||
+    title.title === "Chat" ;
   });
 
   const navigate = useNavigate();
